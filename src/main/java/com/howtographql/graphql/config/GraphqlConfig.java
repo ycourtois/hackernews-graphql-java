@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GraphqlConfig {
 
+    // Override context with a customized one
     @Bean
     public GraphQLContextBuilder graphQLContextBuilder(UserRepository userRepository) {
         return (request, resp) -> {

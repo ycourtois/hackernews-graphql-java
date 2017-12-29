@@ -22,8 +22,22 @@ type SigninPayload {
     user: User
 }
 
+type Vote {
+    id: ID!
+    createdAt: DateTime!
+    user: User!
+    link: Link!
+}
+
+scalar DateTime
+
+input LinkFilter {
+    description_contains: String
+    url_contains: String
+}
+
 type Query {
-    allLinks: [Link]
+    allLinks(filter: LinkFilter): [Link]
     findByID(id: String!): Link
 }
 
@@ -31,4 +45,5 @@ type Mutation {
     createUser(name: String!, authProvider: AuthData!): User
     createLink(url: String!, description: String!): Link
     signinUser(auth: AuthData): SigninPayload
+    createVote(linkId: ID, userId: ID): Vote
 }
