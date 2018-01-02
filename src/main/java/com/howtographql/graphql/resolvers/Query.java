@@ -19,8 +19,8 @@ public class Query implements GraphQLQueryResolver {
 
     private final LinkRepository linkRepository;
 
-    public List<Link> allLinks(LinkFilter filter) {
-        return linkRepository.findAllLinks(filter);
+    public List<Link> allLinks(LinkFilter filter, int skip, int limit) {
+        return linkRepository.findAllLinks(filter, skip, limit);
     }
 
     public Link findByID(String id) {

@@ -21,11 +21,14 @@ public class LinkRepositoryImpl implements LinkRepositoryCustom {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public List<Link> findAllLinks(LinkFilter filter) {
+    public List<Link> findAllLinks(LinkFilter filter, int skip, int limit) {
         final Optional<Criteria> criteria = Optional.ofNullable(filter).map(this::buildCriteria);
 
         Query query = new Query();
-        criteria.map(query::addCriteria).orElse(query);
+        query = criteria.map(query::addCriteria).orElse(query);
+
+        query.limit(limit);
+        query.skip(skip);
 
         return mongoTemplate.find(query, Link.class);
     }

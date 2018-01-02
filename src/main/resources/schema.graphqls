@@ -37,7 +37,7 @@ input LinkFilter {
 }
 
 type Query {
-    allLinks(filter: LinkFilter): [Link]
+    allLinks(filter: LinkFilter, skip: Int = 0, limit: Int = 0): [Link]
     findByID(id: String!): Link
 }
 

@@ -10,5 +10,5 @@ import java.util.List;
  * @since 12/29/2017
  */
 public interface LinkRepositoryCustom {
-    List<Link> findAllLinks(LinkFilter filter);
+    List<Link> findAllLinks(LinkFilter filter, int skip, int first);
 }
