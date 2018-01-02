@@ -1,6 +1,5 @@
 package com.howtographql.graphql.resolvers;
 
-import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.howtographql.graphql.context.AuthContext;
 import com.howtographql.graphql.exception.UserNotFoundException;
 import com.howtographql.graphql.input.AuthData;
@@ -12,7 +11,9 @@ import com.howtographql.repositories.LinkRepository;
 import com.howtographql.repositories.UserRepository;
 import com.howtographql.repositories.VoteRepository;
 import graphql.GraphQLException;
-import graphql.schema.DataFetchingEnvironment;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLRootContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,25 +29,30 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @Component
 @Slf4j
-public class Mutation implements GraphQLMutationResolver {
+public class Mutation {
 
     private final LinkRepository linkRepository;
     private final UserRepository userRepository;
     private final VoteRepository voteRepository;
 
-    public Link createLink(String url, String description, DataFetchingEnvironment env) {
-        AuthContext authContext = env.getContext();
+    @GraphQLMutation(description = "create a link")
+    public Link createLink(@GraphQLArgument(name = "url") String url,
+                           @GraphQLArgument(name = "description") String description,
+                           @GraphQLRootContext AuthContext authContext) { //DataFetchingEnvironment env) {
         Link newLink = new Link(url, description, authContext.getUser().getId());
         linkRepository.save(newLink);
         return newLink;
     }
 
-    public User createUser(String name, AuthData authData) {
+    @GraphQLMutation(description = "create a user")
+    public User createUser(@GraphQLArgument(name = "name") String name,
+                           @GraphQLArgument(name = "authProvider") AuthData authData) {
         User newUser = new User(name, authData.getEmail(), authData.getPassword());
         return userRepository.save(newUser);
     }
 
-    public SigninPayload signinUser(AuthData auth) {
+    @GraphQLMutation(description = "check user")
+    public SigninPayload signinUser(@GraphQLArgument(name = "auth") AuthData auth) {
         User user = userRepository.findByEmail(auth.getEmail());
         if (user == null) {
             throw new UserNotFoundException("Unable to find a user with specified email", auth.getEmail());
@@ -58,7 +64,9 @@ public class Mutation implements GraphQLMutationResolver {
         throw new GraphQLException("Invalid credentials");
     }
 
-    public Vote createVote(String linkId, String userId) {
+    @GraphQLMutation(description = "create a vote")
+    public Vote createVote(@GraphQLArgument(name = "linkId") String linkId,
+                           @GraphQLArgument(name = "userId") String userId) {
         ZonedDateTime now = Instant.now().atZone(ZoneOffset.UTC);
         return voteRepository.save(new Vote(now, userId, linkId));
     }

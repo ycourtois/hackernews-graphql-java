@@ -4,13 +4,12 @@ import com.howtographql.repositories.LinkRepository;
 import com.howtographql.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 /**
  * @author yann.courtois@ippon.fr
  * @since 12/27/2017
  */
-@Component
+//@Component
 @RequiredArgsConstructor
 public class BootStrap implements CommandLineRunner {
 

@@ -1,9 +1,10 @@
 package com.howtographql.graphql.resolvers;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.howtographql.graphql.filter.LinkFilter;
 import com.howtographql.graphql.type.Link;
 import com.howtographql.repositories.LinkRepository;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +16,19 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class Query implements GraphQLQueryResolver {
+public class Query {
 
     private final LinkRepository linkRepository;
 
-    public List<Link> allLinks(LinkFilter filter, int skip, int limit) {
+    @GraphQLQuery(description = "list all links")
+    public List<Link> allLinks(LinkFilter filter,
+                               @GraphQLArgument(name = "skip", defaultValue = "0") int skip,
+                               @GraphQLArgument(name = "limit", defaultValue = "0") int limit) {
         return linkRepository.findAllLinks(filter, skip, limit);
     }
 
-    public Link findByID(String id) {
+    @GraphQLQuery
+    public Link findByID(@GraphQLArgument(name = "id") String id) {
         return linkRepository.findOne(id);
     }
 
