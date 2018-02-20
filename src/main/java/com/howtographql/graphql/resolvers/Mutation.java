@@ -36,7 +36,8 @@ public class Mutation implements GraphQLMutationResolver {
 
     public Link createLink(String url, String description, DataFetchingEnvironment env) {
         AuthContext authContext = env.getContext();
-        Link newLink = new Link(url, description, authContext.getUser().getId());
+//        authContext.getUser().getId()
+        Link newLink = new Link(url, description, "0");
         linkRepository.save(newLink);
         return newLink;
     }

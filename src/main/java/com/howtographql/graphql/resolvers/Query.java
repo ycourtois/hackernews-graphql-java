@@ -27,4 +27,8 @@ public class Query implements GraphQLQueryResolver {
         return linkRepository.findOne(id);
     }
 
+    public List<Link> allLinksNoArgs() {
+        return linkRepository.findAll();
+    }
+
 }
