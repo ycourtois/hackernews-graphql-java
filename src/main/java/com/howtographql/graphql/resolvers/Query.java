@@ -1,6 +1,5 @@
 package com.howtographql.graphql.resolvers;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.howtographql.graphql.filter.LinkFilter;
 import com.howtographql.graphql.type.Link;
 import com.howtographql.repositories.LinkRepository;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class Query implements GraphQLQueryResolver {
+public class Query { // implements GraphQLQueryResolver {
 
     private final LinkRepository linkRepository;
 
