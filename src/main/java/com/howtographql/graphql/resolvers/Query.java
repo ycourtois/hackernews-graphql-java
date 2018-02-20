@@ -1,5 +1,6 @@
 package com.howtographql.graphql.resolvers;
 
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.howtographql.graphql.filter.LinkFilter;
 import com.howtographql.graphql.type.Link;
 import com.howtographql.repositories.LinkRepository;
@@ -14,13 +15,9 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class Query { // implements GraphQLQueryResolver {
+public class Query implements GraphQLQueryResolver {
 
     private final LinkRepository linkRepository;
-
-    public List<Link> allLinks(LinkFilter filter, int skip, int limit) {
-        return linkRepository.findAllLinks(filter, skip, limit);
-    }
 
     public Link findByID(String id) {
         return linkRepository.findOne(id);
@@ -28,6 +25,10 @@ public class Query { // implements GraphQLQueryResolver {
 
     public List<Link> allLinksNoArgs() {
         return linkRepository.findAll();
+    }
+
+    public List<Link> allLinks(LinkFilter filter, int skip, int limit) {
+        return linkRepository.findAllLinks(filter, skip, limit);
     }
 
 }

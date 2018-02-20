@@ -1,5 +1,6 @@
 package com.howtographql.graphql.resolvers;
 
+import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.howtographql.graphql.type.Link;
 import com.howtographql.graphql.type.User;
 import com.howtographql.repositories.UserRepository;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 // We need it because "postedby" does not match any class property inside Link
-public class LinkResolver { //implements GraphQLResolver<Link> {
+public class LinkResolver implements GraphQLResolver<Link> {
 
     private final UserRepository userRepository;
 
@@ -22,5 +23,9 @@ public class LinkResolver { //implements GraphQLResolver<Link> {
             return null;
         }
         return userRepository.findOne(link.getUserId());
+    }
+
+    public String createdBy(Link link) {
+        return "An otter";
     }
 }

@@ -1,24 +1,21 @@
 package com.howtographql.graphql.config;
 
+import com.coxautodev.graphql.tools.SchemaParser;
 import com.howtographql.graphql.context.AuthContext;
+import com.howtographql.graphql.resolvers.LinkResolver;
+import com.howtographql.graphql.resolvers.Mutation;
 import com.howtographql.graphql.resolvers.Query;
+import com.howtographql.graphql.resolvers.VoteResolver;
 import com.howtographql.graphql.type.User;
 import com.howtographql.repositories.UserRepository;
+import graphql.schema.GraphQLScalarType;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
 import graphql.servlet.GraphQLContextBuilder;
 import graphql.servlet.GraphQLServlet;
 import graphql.servlet.SimpleGraphQLServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * @author yann.courtois@ippon.fr
@@ -43,20 +40,22 @@ public class GraphqlConfig {
     }
 
     // all this section should be handled by spring boot starter auto configuration
+
+
     @Bean
-    public GraphQLServlet graphQLServlet(Query query) throws URISyntaxException {
+    public GraphQLServlet graphQLServlet(Query query, Mutation mutation,
+                                         LinkResolver linkResolver,
+                                         VoteResolver voteResolver,
+                                         GraphQLScalarType scalarDateTime) {
 
-        final Path schemaPath = Paths.get(getClass().getResource("/schema.graphqls").toURI());
-        SchemaParser schemaParser = new SchemaParser();
-        final TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schemaPath.toFile());
-
-        SchemaGenerator schemaGenerator = new SchemaGenerator();
-        final RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
-                .type("Query", typeWiring ->
-                        typeWiring.dataFetcher("allLinks", dfe -> query.allLinksNoArgs()))
-                .build();
-
-        final GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
+        final GraphQLSchema graphQLSchema =
+                SchemaParser.newParser()
+                        .file("schema.graphqls")
+                        .resolvers(query, mutation) // root resolvers
+                        .resolvers(linkResolver, voteResolver) // fields resolvers
+                        .scalars(scalarDateTime)
+                        .build()
+                        .makeExecutableSchema();
 
         return SimpleGraphQLServlet
                 .builder(graphQLSchema)
@@ -68,5 +67,4 @@ public class GraphqlConfig {
     ServletRegistrationBean graphQLServletRegistrationBean(GraphQLServlet servlet) {
         return new ServletRegistrationBean(servlet, "/graphql");
     }
-
 }

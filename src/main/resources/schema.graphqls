@@ -1,54 +1,55 @@
-#type Link {
-#    id: ID!
-#    url: String!
-#    description: String!
-#    postedBy: User
-#}
-#
-#type User {
-#    id: ID!
-#    name: String!
-#    email: String
-#    password: String
-#}
-#
-#input AuthData {
-#    email: String!
-#    password: String!
-#}
-#
-#type SigninPayload {
-#    token: String
-#    user: User
-#}
-#
-#type Vote {
-#    id: ID!
-#    createdAt: DateTime!
-#    user: User!
-#    link: Link!
-#}
-#
-#scalar DateTime
-#
-#input LinkFilter {
-#    description_contains: String
-#    url_contains: String
-#}
-#
-#type Query {
-#    allLinks(filter: LinkFilter, skip: Int = 0, limit: Int = 0): [Link]
-#    allLinksNoArgs: [Link]
-#    findByID(id: String!): Link
-#}
-#
-#type Mutation {
-#    createUser(name: String!, authProvider: AuthData!): User
-#    createLink(url: String!, description: String!): Link
-#    signinUser(auth: AuthData): SigninPayload
-#    createVote(linkId: ID, userId: ID): Vote
-#}
-#
+type Link {
+    id: ID!
+    url: String!
+    description: String!
+    postedBy: User
+    createdBy: String!
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String
+    password: String
+}
+
+input AuthData {
+    email: String!
+    password: String!
+}
+
+type SigninPayload {
+    token: String
+    user: User
+}
+
+type Vote {
+    id: ID!
+    createdAt: DateTime!
+    user: User!
+    link: Link!
+}
+
+scalar DateTime
+
+input LinkFilter {
+    description_contains: String
+    url_contains: String
+}
+
+type Query {
+    allLinks(filter: LinkFilter, skip: Int = 0, limit: Int = 0): [Link]
+    allLinksNoArgs: [Link]
+    findByID(id: String!): Link
+}
+
+type Mutation {
+    createUser(name: String!, authProvider: AuthData!): User
+    createLink(url: String!, description: String!): Link
+    signinUser(auth: AuthData): SigninPayload
+    createVote(linkId: ID, userId: ID): Vote
+}
+
 
 # not mandatory
 #schema {
@@ -56,15 +57,15 @@
 #    mutation: Mutation
 #}
 
-type Link {
-    url: String!
-    description: String!
-}
-
-type Query {
-    allLinks: [Link]
-}
-
-schema {
-    query: Query
-}
+#type Link {
+#    url: String!
+#    description: String!
+#}
+#
+#type Query {
+#    allLinks: [Link]
+#}
+#
+#schema {
+#    query: Query
+#}

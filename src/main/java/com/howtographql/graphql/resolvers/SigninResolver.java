@@ -1,5 +1,6 @@
 package com.howtographql.graphql.resolvers;
 
+import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.howtographql.graphql.type.SigninPayload;
 import com.howtographql.graphql.type.User;
 
@@ -8,7 +9,7 @@ import com.howtographql.graphql.type.User;
  * @since 12/28/2017
  */
 // Useless because SigningPayload already has a user field
-public class SigninResolver { // implements GraphQLResolver<SigninPayload> {
+public class SigninResolver implements GraphQLResolver<SigninPayload> {
 
     public User user(SigninPayload payload) {
         return payload.getUser();

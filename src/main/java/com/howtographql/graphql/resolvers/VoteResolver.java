@@ -1,5 +1,6 @@
 package com.howtographql.graphql.resolvers;
 
+import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.howtographql.graphql.type.Link;
 import com.howtographql.graphql.type.User;
 import com.howtographql.graphql.type.Vote;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class VoteResolver { // implements GraphQLResolver<Vote> {
+public class VoteResolver implements GraphQLResolver<Vote> {
 
     private final LinkRepository linkRepository;
     private final UserRepository userRepository;
