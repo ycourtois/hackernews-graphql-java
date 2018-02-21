@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HackernewsGraphqlJavaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HackernewsGraphqlJavaApplication.class, args);
+
+        Object[] sources = {HackernewsGraphqlJavaApplication.class, "classpath:/com/howtographql/config/CustomConfig" +
+                ".groovy"};
+        SpringApplication.run(sources, args);
     }
 }

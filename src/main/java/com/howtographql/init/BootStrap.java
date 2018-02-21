@@ -5,6 +5,8 @@ import com.howtographql.graphql.type.User;
 import com.howtographql.repositories.LinkRepository;
 import com.howtographql.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,10 @@ public class BootStrap implements CommandLineRunner {
 
     private final LinkRepository linkRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    @Qualifier(value = "myBeanLink")
+    private Link myBeanLink;
 
     @Override
     public void run(String... args) throws Exception {

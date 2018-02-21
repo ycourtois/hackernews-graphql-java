@@ -46,18 +46,23 @@ public class GraphqlConfig {
     @Bean
     public GraphQLServlet graphQLServlet(Query query) throws URISyntaxException {
 
+        // 1. retrieve the schema file in classpath resources
         final Path schemaPath = Paths.get(getClass().getResource("/schema.graphqls").toURI());
+        // 2. create a schema parser
         SchemaParser schemaParser = new SchemaParser();
         final TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schemaPath.toFile());
 
         SchemaGenerator schemaGenerator = new SchemaGenerator();
+        // 3. specify the root query and the resolve function
         final RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring ->
                         typeWiring.dataFetcher("allLinks", dfe -> query.allLinksNoArgs()))
                 .build();
 
+        // 4. create schema instance
         final GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
 
+        // 5. create servlet
         return SimpleGraphQLServlet
                 .builder(graphQLSchema)
                 .build();
