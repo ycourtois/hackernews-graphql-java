@@ -3,8 +3,8 @@ package com.howtographql.graphql.config;
 import com.coxautodev.graphql.tools.SchemaParser;
 import com.howtographql.graphql.context.AuthContext;
 import com.howtographql.graphql.resolvers.LinkResolver;
-import com.howtographql.graphql.resolvers.Mutation;
-import com.howtographql.graphql.resolvers.Query;
+import com.howtographql.graphql.resolvers.MutationResolver;
+import com.howtographql.graphql.resolvers.RootQueryResolver;
 import com.howtographql.graphql.resolvers.VoteResolver;
 import com.howtographql.graphql.type.User;
 import com.howtographql.repositories.UserRepository;
@@ -43,7 +43,7 @@ public class GraphqlConfig {
 
 
     @Bean
-    public GraphQLServlet graphQLServlet(Query query, Mutation mutation,
+    public GraphQLServlet graphQLServlet(RootQueryResolver rootQueryResolver, MutationResolver mutationResolver,
                                          LinkResolver linkResolver,
                                          VoteResolver voteResolver,
                                          GraphQLScalarType scalarDateTime) {
@@ -51,7 +51,7 @@ public class GraphqlConfig {
         final GraphQLSchema graphQLSchema =
                 SchemaParser.newParser()
                         .file("schema.graphqls")
-                        .resolvers(query, mutation) // root resolvers
+                        .resolvers(rootQueryResolver, mutationResolver) // root resolvers
                         .resolvers(linkResolver, voteResolver) // fields resolvers
                         .scalars(scalarDateTime)
                         .build()

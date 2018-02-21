@@ -15,7 +15,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class Query implements GraphQLQueryResolver {
+public class RootQueryResolver implements GraphQLQueryResolver {
 
     private final LinkRepository linkRepository;
 
@@ -30,5 +30,4 @@ public class Query implements GraphQLQueryResolver {
     public List<Link> allLinks(LinkFilter filter, int skip, int limit) {
         return linkRepository.findAllLinks(filter, skip, limit);
     }
-
 }

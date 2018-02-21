@@ -1,7 +1,6 @@
 package com.howtographql.graphql.resolvers;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.howtographql.graphql.context.AuthContext;
 import com.howtographql.graphql.exception.UserNotFoundException;
 import com.howtographql.graphql.input.AuthData;
 import com.howtographql.graphql.type.Link;
@@ -28,14 +27,14 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @Component
 @Slf4j
-public class Mutation implements GraphQLMutationResolver {
+public class MutationResolver implements GraphQLMutationResolver {
 
     private final LinkRepository linkRepository;
     private final UserRepository userRepository;
     private final VoteRepository voteRepository;
 
     public Link createLink(String url, String description, DataFetchingEnvironment env) {
-        AuthContext authContext = env.getContext();
+//        AuthContext authContext = env.getContext();
 //        authContext.getUser().getId()
         Link newLink = new Link(url, description, "0");
         linkRepository.save(newLink);
