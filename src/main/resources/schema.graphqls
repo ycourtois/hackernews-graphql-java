@@ -48,6 +48,7 @@ type Mutation {
     createLink(url: String!, description: String!): Link
     signinUser(auth: AuthData): SigninPayload
     createVote(linkId: ID, userId: ID): Vote
+    deleteLink(linkId: ID): ID
 }
 
 
