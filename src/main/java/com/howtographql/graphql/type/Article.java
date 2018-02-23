@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  * @author yann.courtois@ippon.fr
- * @since 12/26/2017
+ * @since 2/22/2018
  */
 @Getter
 @Setter
@@ -15,22 +15,13 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = "id")
-public class Link {
+public class Article {
     @Id
     private String id;
     @NonNull
-    private String url;
+    private String name;
     @NonNull
-    private String description;
+    private String writtenBy;
     @DBRef
-    private Article article;
-//    @NonNull
-//    private String userId;
-
-
-    public Link(String url, String description, Article article) {
-        this.url = url;
-        this.description = description;
-        this.article = article;
-    }
+    private Link link;
 }

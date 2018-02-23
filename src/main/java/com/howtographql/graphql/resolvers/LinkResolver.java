@@ -2,7 +2,6 @@ package com.howtographql.graphql.resolvers;
 
 import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.howtographql.graphql.type.Link;
-import com.howtographql.graphql.type.User;
 import com.howtographql.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,12 +17,12 @@ public class LinkResolver implements GraphQLResolver<Link> {
 
     private final UserRepository userRepository;
 
-    public User postedBy(Link link) {
-        if (link.getUserId() == null) {
-            return null;
-        }
-        return userRepository.findOne(link.getUserId());
-    }
+//    public User postedBy(Link link) {
+//        if (link.getUserId() == null) {
+//            return null;
+//        }
+//        return userRepository.findOne(link.getUserId());
+//    }
 
     public String createdBy(Link link) {
         return "An otter";

@@ -48,13 +48,13 @@ public class GraphqlConfig {
 
         final GraphQLSchema graphQLSchema =
                 SchemaParser.newParser()
-                        .file("schema.graphqls")
+                        .files("schema_link.graphqls", "schema_article.graphqls") // schema files
                         .resolvers(rootQueryResolver, mutationResolver, mutationLinkResolver) // root resolvers
                         .resolvers(linkResolver, voteResolver) // fields resolvers
                         .scalars(scalarDateTime)
                         .build()
                         .makeExecutableSchema();
-
+        // create a GraphQL Servlet to expose our API
         return SimpleGraphQLServlet
                 .builder(graphQLSchema)
                 .build();

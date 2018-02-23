@@ -1,0 +1,10 @@
+type Article {
+    id: ID!
+    name: String!
+    writtenBy: String
+    link: Link
+}
+
+extend type Query {
+    allArticles: [Article]
+}
