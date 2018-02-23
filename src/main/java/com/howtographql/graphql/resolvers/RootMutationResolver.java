@@ -1,18 +1,14 @@
 package com.howtographql.graphql.resolvers;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.howtographql.graphql.context.AuthContext;
 import com.howtographql.graphql.exception.UserNotFoundException;
 import com.howtographql.graphql.input.AuthData;
-import com.howtographql.graphql.type.Link;
 import com.howtographql.graphql.type.SigninPayload;
 import com.howtographql.graphql.type.User;
 import com.howtographql.graphql.type.Vote;
-import com.howtographql.repositories.LinkRepository;
 import com.howtographql.repositories.UserRepository;
 import com.howtographql.repositories.VoteRepository;
 import graphql.GraphQLException;
-import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,19 +24,11 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 @Component
 @Slf4j
-public class Mutation implements GraphQLMutationResolver {
+public class RootMutationResolver implements GraphQLMutationResolver {
 
-    private final LinkRepository linkRepository;
     private final UserRepository userRepository;
     private final VoteRepository voteRepository;
 
-    public Link createLink(String url, String description, DataFetchingEnvironment env) {
-        AuthContext authContext = env.getContext();
-//        authContext.getUser().getId()
-        Link newLink = new Link(url, description, "0");
-        linkRepository.save(newLink);
-        return newLink;
-    }
 
     public User createUser(String name, AuthData authData) {
         User newUser = new User(name, authData.getEmail(), authData.getPassword());
